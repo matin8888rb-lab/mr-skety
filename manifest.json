@@ -1,0 +1,11 @@
+{
+  "name": "باشگاه طرفداران مستر اسکتی",
+  "short_name": "مستر اسکتی",
+  "lang": "fa",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#080b18",
+  "theme_color": "#090d1c",
+  "description": "آکادمی فضایی آموزش ریاضی نهم"
+}
