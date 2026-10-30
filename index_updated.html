@@ -4,7 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#090d1c">
-<meta property="og:site_name" content="باشگاه طرفداران مستر اسکتی">\n<meta name="description" content="آموزش مرحله‌ای مجموعه‌ها برای ریاضی نهم و تیزهوشان؛ مثال‌های حل‌شده، افراز، زنجیر و پادزنجیر، تمرین تعاملی و ویدئوهای آموزشی.">
+<meta property="og:site_name" content="باشگاه طرفداران مستر اسکتی">
+<meta name="description" content="آموزش تعاملی ریاضی نهم و تیزهوشان؛ مجموعه‌ها، زیرمجموعه، اجتماع، اشتراک، نمودار ون، افراز، زنجیر و پادزنجیر با مثال و تمرین.">
+<meta property="og:title" content="باشگاه طرفداران مستر اسکتی | آکادمی ریاضی">
+<meta property="og:description" content="یادگیری مرحله‌به‌مرحله ریاضی نهم در یک کهکشان آموزشی؛ درس، مثال، تمرین و آزمایشگاه تعاملی.">
+<meta name="robots" content="index,follow">
 <title>باشگاه طرفداران مستر اسکتی</title>
 <link rel="manifest" href="manifest.json">
 <style>
@@ -38,6 +42,16 @@ a{color:inherit;text-decoration:none}button,input,textarea,select{font:inherit}b
 .video-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 @media(max-width:760px){.lesson-path,.video-manager{grid-template-columns:1fr}.lesson-content h3{font-size:16px}}
 
+
+/* Polish pass: readable lesson panels, keyboard focus, and reduced-motion support */
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.lesson-content{font-size:14px;line-height:2}
+.lesson-content h3{margin:22px 0 8px;color:#b9c7ff;font-size:16px}
+.lesson-content p,.lesson-content li{line-height:2}
+.lesson-content .mathline{overflow-wrap:anywhere;white-space:normal}
+.lesson-content .worked,.lesson-content .challenge,.lesson-content .tip{margin:12px 0;padding:13px 15px;border-radius:12px;line-height:2}
+button:disabled{opacity:.65;cursor:not-allowed}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -291,29 +305,36 @@ $$("[data-op]").forEach(b=>b.addEventListener("click",()=>showOperation(b.datase
 const qs=[
 {q:"اگر A={۱،۲،۳} و B={۳،۴} باشد، A∩B کدام است؟",opts:["{۱،۲،۳،۴}","{۳}","{۱،۲}"],a:1,why:"اشتراک فقط عضوهایی را دارد که در هر دو مجموعه باشند؛ تنها عضو مشترک ۳ است."},
 {q:"اگر A={۲،۴} و B={۱،۲،۳،۴} باشد، کدام گزاره درست است؟",opts:["A⊆B","B⊆A","A∩B=∅"],a:0,why:"تمام اعضای A یعنی ۲ و ۴ در B وجود دارند؛ بنابراین A زیرمجموعهٔ B است."},
-{q:"اگر A={۱،۲،۳} و B={۳،۴} باشد، A−B کدام است؟",opts:["{۳}","{۱،۲}","{۱،۲،۳،۴}"],a:1,why:"در A−B اعضای A را نگه می‌داریم که در B نیستند؛ ۱ و ۲ می‌مانند."}
-];let qi=0,score=0,answered=false;
-function renderQ(){$("#qNum").textContent=fa(qi+1);$("#qText").textContent=qs[qi].q;$("#quizFeedback").textContent="";$("#nextQ").style.display="none";$("#quizOptions").innerHTML="";answered=false;qs[qi].opts.forEach((o,i)=>{let b=document.createElement("button");b.className="quiz-opt";b.textContent=o;b.addEventListener("click",()=>answer(i,b));$("#quizOptions").append(b)})}
+{q:"اگر A={۱،۲،۳} و B={۳،۴} باشد، A−B کدام است؟",opts:["{۳}","{۱،۲}","{۱،۲،۳،۴}"],a:1,why:"در A−B اعضای A را نگه می‌داریم که در B نیستند؛ ۱ و ۲ می‌مانند."},
+{q:"یک مجموعهٔ ۴ عضوی چند زیرمجموعه دارد؟",opts:["۸","۱۲","۱۶"],a:2,why:"تعداد زیرمجموعه‌های مجموعهٔ n عضوی برابر ۲ⁿ است؛ پس ۲⁴=۱۶."},
+{q:"کدام مورد افراز S={۱،۲،۳،۴} است؟",opts:["{ {۱،۲}, {۳،۴} }","{ {۱،۲}, {۲،۳،۴} }","{ {۱}, ∅, {۲،۳،۴} }"],a:0,why:"در افراز، بخش‌ها ناتهی و دوتادوتا مجزا هستند و اجتماعشان کل S می‌شود."},
+{q:"کدام خانواده زنجیر است؟",opts:["{{۱},{۲},{۳}}","{{۱},{۱،۲},{۱،۲،۳}}","{{۱،۲},{۲،۳}}"],a:1,why:"در این خانواده هر مجموعه زیرمجموعهٔ مجموعهٔ بعدی است؛ پس همه قابل‌مقایسه‌اند."},
+{q:"اگر n(A)=۵، n(B)=۴ و n(A∩B)=۲ باشد، n(A∪B) چند است؟",opts:["۱۱","۷","۹"],a:1,why:"فرمول اجتماع دو مجموعه n(A∪B)=n(A)+n(B)−n(A∩B) است؛ ۵+۴−۲=۷."},
+{q:"کدام گزاره دربارهٔ مجموعهٔ تهی درست است؟",opts:["عضو ندارد و زیرمجموعهٔ هر مجموعه است","یک عضو دارد","هیچ‌وقت زیرمجموعه نیست"],a:0,why:"مجموعهٔ تهی هیچ عضوی ندارد و زیرمجموعهٔ هر مجموعه‌ای محسوب می‌شود."}
+];let qi=0,score=0,answered=false;function renderQ(){$("#qNum").textContent=fa(qi+1);$("#qText").textContent=qs[qi].q;$("#quizFeedback").textContent="";$("#nextQ").style.display="none";$("#quizOptions").innerHTML="";answered=false;qs[qi].opts.forEach((o,i)=>{let b=document.createElement("button");b.className="quiz-opt";b.textContent=o;b.addEventListener("click",()=>answer(i,b));$("#quizOptions").append(b)})}
 function answer(i,b){if(answered)return;answered=true;let q=qs[qi];$$(".quiz-opt").forEach((x,j)=>{if(j===q.a)x.classList.add("correct")});if(i===q.a){score++;award(10);$("#quizFeedback").textContent="آفرین! پاسخ درست است. +۱۰ امتیاز. "+q.why}else{$("#quizFeedback").textContent="هنوز نه؛ پاسخ درست مشخص شده است. "+q.why;b.classList.add("wrong")}$("#nextQ").style.display="inline-block";$("#nextQ").textContent=qi===qs.length-1?"دیدن نتیجه":"سؤال بعدی ←"}
 $("#nextQ").addEventListener("click",()=>{if(qi<qs.length-1){qi++;renderQ()}else{const pct=Math.round(score/qs.length*100);state.best=Math.max(state.best,pct);localStorage.setItem("sketyBest",state.best);updateStats();$("#quizCard").innerHTML=`<div class="eyebrow">گزارش تمرین</div><h3>نتیجهٔ تو: ${fa(score)} از ${fa(qs.length)}</h3><div class="formula">${fa(pct)}٪</div><p>برای یادگیری بهتر، توضیح پاسخ‌ها را مرور کن و دوباره تمرین کن.</p><button class="btn btn-primary" id="retry">تمرین دوباره</button>`;$("#retry").addEventListener("click",()=>{qi=0;score=0;renderQ()})}});
 renderQ();
 function openGuide(){ $("#guidePanel").classList.add("show");setTimeout(()=>$("#guideInput").focus(),100)}
 $("#guideFab").addEventListener("click",openGuide);$("#guideTop").addEventListener("click",openGuide);$("#closeGuide").addEventListener("click",()=>$("#guidePanel").classList.remove("show"));
-function guideAnswer(t){let s=t.toLowerCase().replace(/\s/g,"");if(/سلام|درود|hi|hello/.test(s))return"سلام! خوش اومدی. می‌تونی دربارهٔ مجموعه‌ها، زیرمجموعه، اجتماع، اشتراک، تفاضل یا بخش‌های سایت سؤال بپرسی.";
-if(/اشتراک|∩/.test(t))return"اشتراک دو مجموعه، عضوهایی است که در هر دو مجموعه وجود دارند. مثال: A={۱،۲،۳} و B={۳،۴}؛ پس A∩B={۳}. برای پیدا کردن اشتراک، اعضای A را یکی‌یکی بررسی کن و فقط آن‌هایی را نگه دار که در B هم هستند.";
-if(/اجتماع|∪/.test(t))return"اجتماع دو مجموعه همهٔ عضوهای A یا B یا هر دو را دربرمی‌گیرد؛ عضو تکراری را فقط یک‌بار می‌نویسیم. مثال: A={۱،۲،۳} و B={۳،۴}، پس A∪B={۱،۲،۳،۴}.";
-if(/تفاضل|منها/.test(t))return"تفاضل A−B یعنی عضوهایی که در A هستند ولی در B نیستند. مثال: A={۱،۲،۳} و B={۲،۳،۴}، پس A−B={۱}. توجه کن که ترتیب مهم است.";
-if(/زیرمجموعه/.test(t))return"A زیرمجموعهٔ B است اگر تمام اعضای A در B هم باشند؛ نماد A⊆B است. مثال: {۱،۲}⊆{۱،۲،۳} درست است، اما {۱،۴}⊆{۱،۲،۳} نادرست است چون ۴ در مجموعهٔ دوم نیست. اگر مجموعه n عضو داشته باشد، ۲ⁿ زیرمجموعه دارد.";
-if(/افراز/.test(t))return"افرازِ S چند زیرمجموعهٔ ناتهی از S است که اشتراک هر دو بخش متفاوت تهی است و اجتماع همهٔ بخش‌ها دقیقاً S می‌شود. مثال: برای S={۱،۲،۳،۴}، بخش‌های {۱،۲} و {۳،۴} یک افراز می‌سازند.";
-if(/زنجیر/.test(t)&&/پادزنجیر/.test(t))return"زنجیر خانواده‌ای است که هر دو عضو آن با رابطهٔ زیرمجموعه بودن قابل‌مقایسه‌اند؛ پادزنجیر خانواده‌ای است که هیچ دو عضو متمایزی در آن زیرمجموعهٔ یکدیگر نیستند. درس کامل را از بخش دورهٔ کامل مجموعه‌ها باز کن.";
-if(/زنجیر/.test(t))return"زنجیر خانواده‌ای از مجموعه‌هاست که هر دو عضو آن قابل‌مقایسه‌اند؛ یعنی A⊆B یا B⊆A. مثال: {{۱},{۱،۲},{۱،۲،۳}} یک زنجیر است.";
-if(/پادزنجیر/.test(t))return"پادزنجیر خانواده‌ای است که هیچ دو عضو متمایزی در آن زیرمجموعهٔ یکدیگر نیستند. مثال: {{۱},{۲},{۳}} پادزنجیر است. این مبحث تکمیلی است.";
-if(/تهی|خالی/.test(t))return"مجموعهٔ تهی هیچ عضوی ندارد و با ∅ یا {} نشان داده می‌شود. مجموعهٔ تهی زیرمجموعهٔ هر مجموعه‌ای است.";
-if(/عضو|∈|مجموعه چیست/.test(t))return"مجموعه، گردآوری مشخصی از اعضاست؛ مثلاً A={۲،۴،۶}. می‌نویسیم ۴∈A چون ۴ عضو A است، اما ۵∉A چون عضو آن نیست. یک مجموعه نباید دربارهٔ عضویت اعضایش ابهام داشته باشد.";
-if(/تعداد|توان|۲\\^|زیرمجموعه/.test(t))return"اگر یک مجموعه n عضو داشته باشد، تعداد زیرمجموعه‌هایش ۲ⁿ است. برای نمونه، مجموعهٔ {a,b} چهار زیرمجموعه دارد: ∅، {a}، {b} و {a,b}.";
-if(/مریم|میرزاخانی/.test(t))return"مریم میرزاخانی (۱۹۷۷–۲۰۱۷) ریاضی‌دان ایرانی بود و در سال ۲۰۱۴ نخستین زن و نخستین ایرانی شد که مدال فیلدز را دریافت کرد. پژوهش‌های او در هندسه و سطوح ریمانی تأثیرگذار بود.";
-if(/راهنما|چطور|سایت/.test(t))return"از منوی سمت راست (در موبایل نوار پایین) می‌تونی به سیاره‌های فصل‌ها، اتاق‌های یادگیری، آزمایشگاه، آزمون و تالار مشاهیر بری. این نسخه پاسخ‌های آموزشی داخلی دارد و هنوز به هوش مصنوعی آنلاین وصل نیست.";
-return"می‌تونم دربارهٔ مجموعه، عضو بودن، زیرمجموعه، اجتماع، اشتراک، تفاضل، مجموعهٔ تهی و مریم میرزاخانی کمک کنم. اگر سؤال دقیق ریاضی داری، آن را با نام مجموعه‌ها و اعضایش بنویس تا قدم‌به‌قدم بررسی کنیم. این راهنما آفلاین است و برای موضوعات دیگر ممکن است پاسخ کامل نداشته باشد."}
+function guideAnswer(t){
+const q=t.toLowerCase().replace(/\\s/g,"");
+if(/سلام|درود|hi|hello/.test(q))return"سلام! من راهنمای آموزشی داخلی سایت هستم. دربارهٔ مجموعه‌ها، عملیات، نمودار ون، افراز، زنجیر و پادزنجیر سؤال بپرس.";
+if(/پادزنجیر/.test(q)&&/زنجیر/.test(q))return"زنجیر: هر دو مجموعهٔ متمایز در خانواده قابل‌مقایسه‌اند؛ یعنی یکی زیرمجموعهٔ دیگری است. پادزنجیر: هیچ دو مجموعهٔ متمایزی زیرمجموعهٔ یکدیگر نیستند. مثال زنجیر: {{۱},{۱،۲},{۱،۲،۳}}؛ مثال پادزنجیر: {{۱},{۲},{۳}}.";
+if(/پادزنجیر/.test(q))return"پادزنجیر خانواده‌ای از مجموعه‌هاست که هیچ دو عضو متمایزی از آن زیرمجموعهٔ هم نیستند. مثال: {{۱},{۲},{۳}} پادزنجیر است، چون هیچ‌یک از مجموعه‌های تک‌عضوی، زیرمجموعهٔ دیگری نیست.";
+if(/زنجیر/.test(q))return"زنجیر خانواده‌ای است که هر دو عضو آن قابل‌مقایسه باشند؛ یعنی برای هر A و B، یا A⊆B یا B⊆A. مثال: {{۱},{۱،۲},{۱،۲،۳}} یک زنجیر است.";
+if(/افراز/.test(q))return"برای اینکه چند بخش، افراز S باشند، سه شرط لازم است: هر بخش ناتهی باشد؛ بخش‌های متفاوت اشتراک تهی داشته باشند؛ اجتماع همهٔ بخش‌ها دقیقاً S باشد. مثال: برای S={۱،۲،۳،۴}، بخش‌های {۱،۲} و {۳،۴} یک افراز می‌سازند.";
+if(/نمودار ون|ون|تعداد اعضا|n\(a\)|n\(b\)/i.test(t))return"برای دو مجموعه از فرمول n(A∪B)=n(A)+n(B)−n(A∩B) استفاده می‌کنیم؛ اشتراک را کم می‌کنیم چون اعضای مشترک در جمع اولیه دوبار شمرده می‌شوند. مثال: ۵+۴−۲=۷.";
+if(/اشتراک|∩/.test(t))return"اشتراک دو مجموعه، عضوهایی است که در هر دو وجود دارند. مثال: A={۱،۲،۳} و B={۳،۴}؛ تنها عضو مشترک ۳ است، پس A∩B={۳}.";
+if(/اجتماع|∪/.test(t))return"اجتماع دو مجموعه همهٔ عضوهای A یا B یا هر دو را دربرمی‌گیرد؛ هر عضو را فقط یک‌بار می‌نویسیم. مثال: A={۱،۲،۳} و B={۳،۴}، پس A∪B={۱،۲،۳،۴}.";
+if(/تفاضل|منها/.test(t))return"تفاضل A−B یعنی عضوهایی که در A هستند ولی در B نیستند. مثال: A={۱،۲،۳} و B={۲،۳،۴}، پس A−B={۱}. ترتیب مهم است؛ B−A برابر {۴} می‌شود.";
+if(/زیرمجموعه|توانی|۲ⁿ|۲\^/.test(q))return"A زیرمجموعهٔ B است اگر همهٔ اعضای A در B هم باشند؛ نماد A⊆B است. اگر A دارای n عضو باشد، تعداد زیرمجموعه‌هایش ۲ⁿ است؛ مثلاً برای ۳ عضو، ۲³=۸ زیرمجموعه داریم.";
+if(/تهی|خالی/.test(q))return"مجموعهٔ تهی هیچ عضوی ندارد و با ∅ نشان داده می‌شود. مجموعهٔ تهی زیرمجموعهٔ هر مجموعه‌ای است؛ اما ∅ و {∅} یکی نیستند: دومی یک عضو دارد، یعنی خود مجموعهٔ تهی.";
+if(/عضو|∈|مجموعه چیست|مجموعه چیه/.test(q))return"مجموعه گردآوری مشخصی از اعضاست؛ مثلاً A={۲،۴،۶}. می‌نویسیم ۴∈A چون ۴ عضو A است، اما ۵∉A چون عضو آن نیست. در مجموعه ترتیب اعضا مهم نیست و تکرار، عضو جدیدی نمی‌سازد.";
+if(/مریم|میرزاخانی/.test(q))return"مریم میرزاخانی (۱۹۷۷–۲۰۱۷) ریاضی‌دان ایرانی بود و در سال ۲۰۱۴ نخستین زن و نخستین ایرانی شد که مدال فیلدز را دریافت کرد. پژوهش‌های او در هندسه و سطوح ریمانی تأثیرگذار بود.";
+if(/راهنما|چطور|سایت|بخش|آزمون|تمرین/.test(q))return"از نوار کناری یا نوار پایین موبایل می‌توانی به سیاره‌ها، درس‌ها، ویدئوها، آزمایشگاه، آزمون و تالار مشاهیر بروی. آزمون فعلی ۸ سؤال دارد و امتیاز و بهترین نتیجه روی همین دستگاه ذخیره می‌شود.";
+return"من پاسخ‌گوی آموزشی داخلی و آفلاین هستم و به مدل هوش مصنوعی آنلاین وصل نیستم؛ بنابراین ممکن است سؤال‌های خارج از موضوع سایت را نفهمم. سؤال را با نمادها و اعضای مجموعه‌ها بنویس، مثلاً: اگر A={۱،۲،۳} و B={۳،۴} باشد، A−B چیست؟";
+}
 $("#guideForm").addEventListener("submit",e=>{e.preventDefault();let t=$("#guideInput").value.trim();if(!t)return;let u=document.createElement("div");u.className="bubble usermsg";u.textContent=t;$("#chat").append(u);let b=document.createElement("div");b.className="bubble botmsg";b.textContent=guideAnswer(t);$("#chat").append(b);$("#guideInput").value="";$("#chat").scrollTop=$("#chat").scrollHeight});
 function customize(){openModal("ظاهر فضانورد من",`<div class="customizer"><div class="avatar-preview" id="avatarPreview">${state.avatar}</div><div><p>ظاهر دلخواهت را انتخاب کن. انتخاب‌ها روی همین دستگاه ذخیره می‌شوند.</p><h3>شخصیت</h3><div class="choices" id="avatars">${["🧑‍🚀","👩‍🚀","🤖","👽","🛰️"].map(a=>`<button class="choice ${state.avatar===a?"selected":""}" data-avatar="${a}">${a}</button>`).join("")}</div><h3>رنگ پنل</h3><div class="choices" id="colors">${[["بنفش","#35386e"],["آبی","#174b68"],["سبزآبی","#18564e"],["کهربایی","#67472a"]].map(c=>`<button class="choice" data-color="${c[1]}">${c[0]}</button>`).join("")}</div><p id="saveCustom" class="result"></p></div></div>`);$$("[data-avatar]").forEach(b=>b.onclick=()=>{state.avatar=b.dataset.avatar;$("#avatarPreview").textContent=state.avatar;localStorage.setItem("sketyAvatar",state.avatar);$$("[data-avatar]").forEach(x=>x.classList.toggle("selected",x===b));$("#saveCustom").textContent="شخصیت ذخیره شد."});$$("[data-color]").forEach(b=>b.onclick=()=>{state.color=b.dataset.color;$("#avatarPreview").style.background=`radial-gradient(circle,${state.color},#12182b)`;localStorage.setItem("sketyColor",state.color);$("#saveCustom").textContent="رنگ انتخاب شد و ذخیره شد."})}
 $("#customizeBtn").addEventListener("click",customize);
